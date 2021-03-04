@@ -32,8 +32,8 @@ if(isset($_POST['email']) && isset($_POST['password'])){ // on valid submission 
             }
         }      
     }
-    // header("Location: $error_url");
-    // exit();
+    header("Location: $error_url");
+    exit();
     
     // if($_COOKIE['users'])
 }
