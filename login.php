@@ -1,24 +1,38 @@
 <?php
+require_once "user.php";
+
 $redirect_url = '/php-auth/index.php';
+$error_url = '/php-auth/login-error.php';
 session_start();
 
-// print_r($_SESSION);
+print_r($_SESSION['users']);
 
 // if(isset($_COOKIE['email'])) echo $_COOKIE['email'];
 
-$_SESSION['user_id'] = [];
-print_r($_SESSION['users']);
-if(isset($_POST['email']) && isset($_POST['password'])){
-    foreach($_SESSION['users'] as $users){
-        if($users['email'] == $_POST['email'] && $users['password'] == $_POST['password']){
-            $_SESSION['user_id']['username'] = $users['username'];
-            $_SESSION['user_id']['id'] = rand(3, 50000); 
-            header("Location: $redirect_url");
-            exit();
-        }
+if(!isset($_SESSION['users_id'])) $_SESSION['users_id'] = [];
+if(!isset($_SESSION['IDs'])) $_SESSION['IDs'] = [];
+
+if(isset($_POST['email']) && isset($_POST['password'])){ // on valid submission of form
+
+    foreach($_SESSION['users'] as $users){ //loop through users
+        if($users->email == $_POST['email'] && $users->get_password() == $_POST['password']){
+            if(!$users->get_session_id()){
+               $users->set_session_id();
+               $_SESSION['IDs'][] = $users->get_session_id();
+
+               $_SESSION['users_id'][] = new UserID($users->get_session_id(), $users->name);
+               header("Location: $redirect_url");
+               exit();
+            }
+            else {
+                header("Location: $redirect_url");
+                exit(); 
+            }
+        }      
     }
+    header("Location: $error_url");
+    exit();
     
-    var_dump($_SESSION['user_id']);
     // if($_COOKIE['users'])
 }
 
