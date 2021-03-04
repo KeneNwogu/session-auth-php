@@ -1,5 +1,7 @@
 
 <?php
+require_once "user.php";
+
 $new_url = '/php-auth/login.php';
 session_start();
 
@@ -10,10 +12,13 @@ if(!isset($_SESSION['users'])) {
 // print_r($_SESSION);
 
 if(isset($_POST['email']) && isset($_POST['password'])){
-    $length = count($_SESSION['users']);
-    $_SESSION['users'][$length]['username'] = $_POST['username'];
-    $_SESSION['users'][$length]['email'] = $_POST['email'];
-    $_SESSION['users'][$length]['password'] = $_POST['password'];
+    $name = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $user = new User($name, $email, $password);
+    $_SESSION['users'][] = $user;
+
     header("Location: $new_url");
     exit();
 }

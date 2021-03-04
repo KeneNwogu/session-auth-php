@@ -1,16 +1,24 @@
 <?php
+require_once "user.php";
+$error_url = '/php-auth/login-error.php';
 session_start();
 
-// var_dump($_SESSION);
-// $fullname = $_SESSION['username'];
+$fullname = '';
+$ID = '';
+// print_r($_SESSION['IDs']); //debug
 
-if($_SESSION['user_id']['id'] != 0) {
-    $fullname = $_SESSION['user_id']['username'];
-    $id = $_SESSION['user_id']['id'];
+foreach($_SESSION['IDs'] as $id)
+{
+    foreach($_SESSION['users_id'] as $users){
+        if($users->ID == $id){
+            $fullname = $users->user;
+            $ID = $users->ID;
+        }
+    }
 }
 
 echo "<h1>Welcome $fullname </h1>";
-echo "<p>Your Session-ID: $id </p>";
+echo "<p>Your Session-ID: $ID </p>";
 // session_destroy();
 ?>
 
