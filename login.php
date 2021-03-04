@@ -5,11 +5,11 @@ $redirect_url = '/php-auth/index.php';
 $error_url = '/php-auth/login-error.php';
 session_start();
 
-print_r($_SESSION['users']);
+// print_r($_SESSION['users']);
 
 // if(isset($_COOKIE['email'])) echo $_COOKIE['email'];
 
-if(!isset($_SESSION['users_id'])) $_SESSION['users_id'] = [];
+$_SESSION['users_id'] = [];
 if(!isset($_SESSION['IDs'])) $_SESSION['IDs'] = [];
 
 if(isset($_POST['email']) && isset($_POST['password'])){ // on valid submission of form
@@ -19,19 +19,21 @@ if(isset($_POST['email']) && isset($_POST['password'])){ // on valid submission 
             if(!$users->get_session_id()){
                $users->set_session_id();
                $_SESSION['IDs'][] = $users->get_session_id();
-
+               
                $_SESSION['users_id'][] = new UserID($users->get_session_id(), $users->name);
+            //    echo $_SESSION['users_id'];
                header("Location: $redirect_url");
                exit();
             }
             else {
+                $_SESSION['users_id'][] = new UserID($users->get_session_id(), $users->name);
                 header("Location: $redirect_url");
                 exit(); 
             }
         }      
     }
-    header("Location: $error_url");
-    exit();
+    // header("Location: $error_url");
+    // exit();
     
     // if($_COOKIE['users'])
 }

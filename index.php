@@ -5,7 +5,8 @@ session_start();
 
 $fullname = '';
 $ID = '';
-// print_r($_SESSION['IDs']); //debug
+// print_r($_SESSION['users_id']); //debug
+// print_r($_SESSION['IDs']);
 
 foreach($_SESSION['IDs'] as $id)
 {
@@ -19,6 +20,8 @@ foreach($_SESSION['IDs'] as $id)
 
 echo "<h1>Welcome $fullname </h1>";
 echo "<p>Your Session-ID: $ID </p>";
+
+// $_SESSION['users_id'] = [];
 // session_destroy();
 ?>
 
